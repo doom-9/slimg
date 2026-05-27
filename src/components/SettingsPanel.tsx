@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import type { CompressOptions, OutputFormat } from "../core/types";
 
 interface Props {
@@ -6,14 +7,10 @@ interface Props {
   disabled?: boolean;
 }
 
-const FORMATS: { value: OutputFormat; label: string }[] = [
-  { value: "original", label: "Keep original" },
-  { value: "jpeg", label: "JPEG" },
-  { value: "png", label: "PNG (lossless)" },
-  { value: "webp", label: "WebP" },
-];
+const FORMATS: OutputFormat[] = ["original", "jpeg", "png", "webp"];
 
 export function SettingsPanel({ options, onChange, disabled }: Props) {
+  const { t } = useTranslation();
   const showQuality =
     options.format === "jpeg" || options.format === "webp" || options.format === "original";
   const showPngLevel = options.format === "png" || options.format === "original";
@@ -27,14 +24,14 @@ export function SettingsPanel({ options, onChange, disabled }: Props) {
     <fieldset className="settings" disabled={disabled}>
       <div className="settings__row">
         <label className="settings__field">
-          <span>Output format</span>
+          <span>{t("settings.format")}</span>
           <select
             value={options.format}
             onChange={(e) => onChange({ format: e.target.value as OutputFormat })}
           >
             {FORMATS.map((f) => (
-              <option key={f.value} value={f.value}>
-                {f.label}
+              <option key={f} value={f}>
+                {t(`settings.formatOption.${f}`)}
               </option>
             ))}
           </select>
@@ -45,7 +42,7 @@ export function SettingsPanel({ options, onChange, disabled }: Props) {
         <div className="settings__row">
           <label className="settings__field">
             <span>
-              Quality (JPEG/WebP): <strong>{options.quality}</strong>
+              {t("settings.quality")}: <strong>{options.quality}</strong>
             </span>
             <input
               type="range"
@@ -62,7 +59,7 @@ export function SettingsPanel({ options, onChange, disabled }: Props) {
         <div className="settings__row">
           <label className="settings__field">
             <span>
-              PNG optimization (oxipng): <strong>{options.pngOptimizationLevel ?? 2}</strong>
+              {t("settings.pngLevel")}: <strong>{options.pngOptimizationLevel ?? 2}</strong>
             </span>
             <input
               type="range"
@@ -77,21 +74,21 @@ export function SettingsPanel({ options, onChange, disabled }: Props) {
 
       <div className="settings__row settings__row--split">
         <label className="settings__field">
-          <span>Max width (px)</span>
+          <span>{t("settings.maxWidth")}</span>
           <input
             type="number"
             min={1}
-            placeholder="auto"
+            placeholder={t("settings.auto")}
             value={options.maxWidth ?? ""}
             onChange={(e) => onChange({ maxWidth: num(e.target.value) })}
           />
         </label>
         <label className="settings__field">
-          <span>Max height (px)</span>
+          <span>{t("settings.maxHeight")}</span>
           <input
             type="number"
             min={1}
-            placeholder="auto"
+            placeholder={t("settings.auto")}
             value={options.maxHeight ?? ""}
             onChange={(e) => onChange({ maxHeight: num(e.target.value) })}
           />

@@ -1,13 +1,16 @@
+import { useTranslation } from "react-i18next";
 import { useTasks } from "../store/tasks";
 import { downloadAll } from "../core/download";
 import { formatBytes } from "../core/format";
 import { TaskItem } from "./TaskItem";
+import { CompressIcon, DownloadIcon, TrashIcon } from "./icons";
 
 interface Props {
   onCompressAll: () => void;
 }
 
 export function TaskList({ onCompressAll }: Props) {
+  const { t } = useTranslation();
   const tasks = useTasks((s) => s.tasks);
   const clear = useTasks((s) => s.clear);
 
@@ -30,7 +33,12 @@ export function TaskList({ onCompressAll }: Props) {
           onClick={onCompressAll}
           disabled={pending === 0 || running}
         >
-          {running ? "Compressing…" : `Compress${pending ? ` (${pending})` : ""}`}
+          <CompressIcon />
+          {running
+            ? t("task.compressing")
+            : pending
+              ? t("task.compressWithCount", { count: pending })
+              : t("task.compress")}
         </button>
         <button
           type="button"
@@ -38,16 +46,21 @@ export function TaskList({ onCompressAll }: Props) {
           onClick={() => void downloadAll(tasks)}
           disabled={done.length === 0}
         >
-          Download all (zip)
+          <DownloadIcon />
+          {t("task.downloadAll")}
         </button>
         <button type="button" className="btn btn--ghost" onClick={clear}>
-          Clear
+          <TrashIcon />
+          {t("task.clear")}
         </button>
 
         {done.length > 0 && (
           <span className="tasklist__summary">
-            Saved {formatBytes(Math.max(0, totalOriginal - totalResult))} (
-            {Math.round(savedRatio * 100)}%) across {done.length} file(s)
+            {t("tasklist.summary", {
+              count: done.length,
+              size: formatBytes(Math.max(0, totalOriginal - totalResult)),
+              percent: Math.round(savedRatio * 100),
+            })}
           </span>
         )}
       </div>

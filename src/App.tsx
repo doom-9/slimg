@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import "./App.css";
 import { DropZone } from "./components/DropZone";
 import { SettingsPanel } from "./components/SettingsPanel";
 import { TaskList } from "./components/TaskList";
+import { LanguageSwitcher } from "./components/LanguageSwitcher";
 import { pool } from "./core/pool";
 import { useTasks, type Task } from "./store/tasks";
 import type { CompressOptions } from "./core/types";
@@ -36,6 +38,7 @@ async function processOne(task: Task, options: CompressOptions) {
 }
 
 export default function App() {
+  const { t } = useTranslation();
   const [options, setOptions] = useState<CompressOptions>({
     format: "original",
     quality: 75,
@@ -52,8 +55,11 @@ export default function App() {
   return (
     <div className="app">
       <header className="app__header">
-        <h1>slimg</h1>
-        <p>Fast, private image compression — everything runs in your browser.</p>
+        <div className="app__bar">
+          <h1 className="app__brand">slimg</h1>
+          <LanguageSwitcher />
+        </div>
+        <p className="app__tagline">{t("app.tagline")}</p>
       </header>
 
       <main className="app__main">

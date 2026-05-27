@@ -1,0 +1,50 @@
+{
+  "app": {
+    "tagline": "快速、私密的图片压缩 —— 全部在你的浏览器中完成。"
+  },
+  "language": {
+    "label": "语言",
+    "en": "English",
+    "zh": "中文",
+    "ja": "日本語"
+  },
+  "dropzone": {
+    "title": "将图片拖到这里",
+    "hint": "或点击选择文件 —— JPEG、PNG、WebP",
+    "rejected_other": "已跳过 {{count}} 个不支持的文件（仅支持 JPEG/PNG/WebP）",
+    "large_other": "{{count}} 个超大文件在低内存设备上可能较慢或失败"
+  },
+  "settings": {
+    "format": "输出格式",
+    "formatOption": {
+      "original": "保持原格式",
+      "jpeg": "JPEG",
+      "png": "PNG（无损）",
+      "webp": "WebP"
+    },
+    "quality": "质量（JPEG/WebP）",
+    "pngLevel": "PNG 优化等级（oxipng）",
+    "maxWidth": "最大宽度（px）",
+    "maxHeight": "最大高度（px）",
+    "auto": "自动"
+  },
+  "task": {
+    "compress": "压缩",
+    "compressWithCount": "压缩（{{count}}）",
+    "compressing": "压缩中…",
+    "downloadAll": "全部下载（zip）",
+    "clear": "清空",
+    "download": "下载",
+    "remove": "移除",
+    "duration": "{{ms}} 毫秒"
+  },
+  "tasklist": {
+    "summary_other": "已节省 {{size}}（{{percent}}%），共 {{count}} 个文件"
+  },
+  "status": {
+    "pending": "等待中",
+    "running": "压缩中…",
+    "done": "完成",
+    "error": "出错"
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "app": {
+    "tagline": "Fast, private image compression — everything runs in your browser."
+  },
+  "language": {
+    "label": "Language",
+    "en": "English",
+    "zh": "中文",
+    "ja": "日本語"
+  },
+  "dropzone": {
+    "title": "Drop images here",
+    "hint": "or click to choose files — JPEG, PNG, WebP",
+    "rejected_one": "{{count}} unsupported file skipped (JPEG/PNG/WebP only)",
+    "rejected_other": "{{count}} unsupported files skipped (JPEG/PNG/WebP only)",
+    "large_one": "{{count}} very large file may be slow or fail on low-memory devices",
+    "large_other": "{{count}} very large files may be slow or fail on low-memory devices"
+  },
+  "settings": {
+    "format": "Output format",
+    "formatOption": {
+      "original": "Keep original",
+      "jpeg": "JPEG",
+      "png": "PNG (lossless)",
+      "webp": "WebP"
+    },
+    "quality": "Quality (JPEG/WebP)",
+    "pngLevel": "PNG optimization (oxipng)",
+    "maxWidth": "Max width (px)",
+    "maxHeight": "Max height (px)",
+    "auto": "auto"
+  },
+  "task": {
+    "compress": "Compress",
+    "compressWithCount": "Compress ({{count}})",
+    "compressing": "Compressing…",
+    "downloadAll": "Download all (zip)",
+    "clear": "Clear",
+    "download": "Download",
+    "remove": "Remove",
+    "duration": "{{ms}} ms"
+  },
+  "tasklist": {
+    "summary_one": "Saved {{size}} ({{percent}}%) across {{count}} file",
+    "summary_other": "Saved {{size}} ({{percent}}%) across {{count}} files"
+  },
+  "status": {
+    "pending": "Pending",
+    "running": "Compressing…",
+    "done": "Done",
+    "error": "Error"
+  }
+}

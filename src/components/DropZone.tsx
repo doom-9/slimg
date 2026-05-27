@@ -1,10 +1,13 @@
 import { useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useTasks } from "../store/tasks";
 import { isSupportedImage } from "../core/format";
+import { UploadIcon } from "./icons";
 
 const LARGE_FILE_WARN = 50 * 1024 * 1024; // 50MB — decode can blow past tab memory on mobile
 
 export function DropZone() {
+  const { t } = useTranslation();
   const addFiles = useTasks((s) => s.addFiles);
   const inputRef = useRef<HTMLInputElement>(null);
   const [dragging, setDragging] = useState(false);
@@ -18,10 +21,9 @@ export function DropZone() {
     const large = supported.filter((f) => f.size > LARGE_FILE_WARN).length;
 
     const messages: string[] = [];
-    if (rejected > 0) messages.push(`${rejected} unsupported file(s) skipped (JPEG/PNG/WebP only)`);
-    if (large > 0)
-      messages.push(`${large} very large file(s) may be slow or fail on low-memory devices`);
-    setNotice(messages.join(". "));
+    if (rejected > 0) messages.push(t("dropzone.rejected", { count: rejected }));
+    if (large > 0) messages.push(t("dropzone.large", { count: large }));
+    setNotice(messages.join(" · "));
 
     if (supported.length > 0) addFiles(supported);
   }
@@ -42,8 +44,9 @@ export function DropZone() {
         }}
         onClick={() => inputRef.current?.click()}
       >
-        <p className="dropzone__title">Drop images here</p>
-        <p className="dropzone__hint">or click to choose files — JPEG, PNG, WebP</p>
+        <UploadIcon className="dropzone__icon" width={36} height={36} />
+        <p className="dropzone__title">{t("dropzone.title")}</p>
+        <p className="dropzone__hint">{t("dropzone.hint")}</p>
         <input
           ref={inputRef}
           type="file"

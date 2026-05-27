@@ -1,0 +1,50 @@
+{
+  "app": {
+    "tagline": "高速でプライベートな画像圧縮 —— すべてブラウザ内で完結します。"
+  },
+  "language": {
+    "label": "言語",
+    "en": "English",
+    "zh": "中文",
+    "ja": "日本語"
+  },
+  "dropzone": {
+    "title": "ここに画像をドロップ",
+    "hint": "またはクリックしてファイルを選択 —— JPEG、PNG、WebP",
+    "rejected_other": "未対応のファイルを {{count}} 件スキップしました（JPEG/PNG/WebP のみ）",
+    "large_other": "非常に大きいファイルが {{count}} 件あります。低メモリ端末では遅延や失敗の可能性があります"
+  },
+  "settings": {
+    "format": "出力形式",
+    "formatOption": {
+      "original": "元の形式を維持",
+      "jpeg": "JPEG",
+      "png": "PNG（可逆）",
+      "webp": "WebP"
+    },
+    "quality": "品質（JPEG/WebP）",
+    "pngLevel": "PNG 最適化レベル（oxipng）",
+    "maxWidth": "最大幅（px）",
+    "maxHeight": "最大高さ（px）",
+    "auto": "自動"
+  },
+  "task": {
+    "compress": "圧縮",
+    "compressWithCount": "圧縮（{{count}}）",
+    "compressing": "圧縮中…",
+    "downloadAll": "すべてダウンロード（zip）",
+    "clear": "クリア",
+    "download": "ダウンロード",
+    "remove": "削除",
+    "duration": "{{ms}} ミリ秒"
+  },
+  "tasklist": {
+    "summary_other": "{{count}} 件のファイルで {{size}}（{{percent}}%）削減しました"
+  },
+  "status": {
+    "pending": "待機中",
+    "running": "圧縮中…",
+    "done": "完了",
+    "error": "エラー"
+  }
+}
