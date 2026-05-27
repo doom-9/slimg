@@ -3,6 +3,10 @@ import react from "@vitejs/plugin-react";
 
 // https://vite.dev/config/
 export default defineConfig({
+  worker: { format: "es" },
+  optimizeDeps: {
+    exclude: ["@jsquash/jpeg", "@jsquash/png", "@jsquash/webp", "@jsquash/oxipng"],
+  },
   staged: {
     "*": "vp check --fix",
   },
