@@ -10,7 +10,11 @@
   },
   "dropzone": {
     "title": "将图片拖到这里",
-    "hint": "或点击选择文件 —— JPEG、PNG、WebP",
+    "hint": "或点击选择文件 —— JPEG、PNG、WebP，或 ZIP 压缩包",
+    "extracting": "正在解压压缩包…",
+    "extracted_other": "已从压缩包中解出 {{count}} 张图片",
+    "zipEmpty": "压缩包内未找到支持的图片",
+    "zipError_other": "{{count}} 个压缩包无法解压",
     "rejected_other": "已跳过 {{count}} 个不支持的文件（仅支持 JPEG/PNG/WebP）",
     "large_other": "{{count}} 个超大文件在低内存设备上可能较慢或失败"
   },

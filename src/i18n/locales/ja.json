@@ -10,7 +10,11 @@
   },
   "dropzone": {
     "title": "ここに画像をドロップ",
-    "hint": "またはクリックしてファイルを選択 —— JPEG、PNG、WebP",
+    "hint": "またはクリックしてファイルを選択 —— JPEG、PNG、WebP、または ZIP アーカイブ",
+    "extracting": "アーカイブを展開中…",
+    "extracted_other": "アーカイブから {{count}} 枚の画像を取り出しました",
+    "zipEmpty": "アーカイブ内に対応する画像が見つかりません",
+    "zipError_other": "{{count}} 個のアーカイブを展開できませんでした",
     "rejected_other": "未対応のファイルを {{count}} 件スキップしました（JPEG/PNG/WebP のみ）",
     "large_other": "非常に大きいファイルが {{count}} 件あります。低メモリ端末では遅延や失敗の可能性があります"
   },
