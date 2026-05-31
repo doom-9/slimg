@@ -1,73 +1,81 @@
-# React + TypeScript + Vite
+# slimg
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Fast, private image compression that runs entirely in your browser. No uploads, no servers — your images never leave your device.
 
-Currently, two official plugins are available:
+slimg decodes and re-encodes images using WebAssembly codecs ([jSquash](https://github.com/jamsinclair/jSquash)) across a pool of web workers, so you can batch-compress dozens of files in parallel without freezing the UI.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+- **100% client-side** — all processing happens in your browser via WASM. Nothing is uploaded.
+- **JPEG, PNG & WebP** — decode and encode any combination, or keep the original format.
+- **Format conversion** — turn PNGs into WebP, JPEGs into PNG, and so on.
+- **Quality control** — adjustable quality for JPEG/WebP encoding.
+- **Lossless PNG optimization** — powered by [oxipng](https://github.com/shssoichiro/oxipng) with selectable optimization levels.
+- **Resize on the fly** — optional max width/height (never upscales).
+- **Parallel batch processing** — a worker pool sized to your CPU keeps compression fast and the page responsive.
+- **One-click download** — grab files individually or export everything as a `.zip`.
+- **Drag & drop** with instant before/after size and savings summary.
+- **Internationalized** — English, 中文, and 日本語 out of the box.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech stack
 
-## Expanding the ESLint configuration
+- [React 19](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/)
+- [jSquash](https://github.com/jamsinclair/jSquash) WASM codecs (JPEG, PNG, oxipng, WebP)
+- [Comlink](https://github.com/GoogleChromeLabs/comlink) for ergonomic web worker RPC
+- [Zustand](https://github.com/pmndrs/zustand) for state
+- [client-zip](https://github.com/Touffy/client-zip) for in-browser zip export
+- [i18next](https://www.i18next.com/) for localization
+- [Vite+](https://viteplus.dev/) toolchain (Vite, Rolldown, Oxlint, Oxfmt)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Getting started
 
-```js
-export default defineConfig([
-  globalIgnores(["dist"]),
-  {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      // Other configs...
+This project uses the [Vite+](https://viteplus.dev/) toolchain via the global `vp` CLI.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+```bash
+# install dependencies
+vp install
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+# start the dev server
+vp dev
+
+# build for production
+vp build
+
+# preview the production build
+vp preview
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+> Prefer pnpm scripts? `pnpm dev`, `pnpm build`, and `pnpm preview` wrap the same commands.
 
-```js
-// eslint.config.js
-import reactX from "eslint-plugin-react-x";
-import reactDom from "eslint-plugin-react-dom";
+## How it works
 
-export default defineConfig([
-  globalIgnores(["dist"]),
-  {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs["recommended-typescript"],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+1. Files dropped into the browser are read as `ArrayBuffer`s and dispatched to a [`CodecPool`](src/core/pool.ts).
+2. The pool spreads jobs across `navigator.hardwareConcurrency - 1` web workers, transferring buffers (zero-copy) to each [worker](src/worker/codec.worker.ts).
+3. Each worker lazily loads only the WASM codecs it needs and [caches them](src/worker/codecs/index.ts), so repeated formats pay the init cost only once.
+4. Decoded `ImageData` is optionally resized, then re-encoded to the target format and handed back to the UI as a `Blob`.
+
+Because everything is local, slimg works offline and handles sensitive images without ever transmitting them.
+
+## Project structure
+
+```text
+src/
+├── core/          # worker pool, types, download/zip helpers
+├── worker/        # codec worker + per-format encode/decode modules
+├── components/    # DropZone, SettingsPanel, TaskList, ...
+├── store/         # Zustand task store
+└── i18n/          # i18next setup + locale files (en, zh, ja)
 ```
+
+## Contributing
+
+Issues and pull requests are welcome. Before submitting, please run:
+
+```bash
+vp check   # format, lint, and type-check
+vp test    # run tests
+```
+
+## License
+
+[MIT](LICENSE)
