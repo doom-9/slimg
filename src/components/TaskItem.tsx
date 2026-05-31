@@ -16,11 +16,7 @@ export function TaskItem({ task }: { task: Task }) {
   return (
     <li className={`task task--${task.status}`}>
       <div className="task__preview">
-        {task.resultUrl ? (
-          <img src={task.resultUrl} alt={task.file.name} />
-        ) : (
-          <span className="task__preview-placeholder" />
-        )}
+        <img src={task.resultUrl ?? task.originalUrl} alt={task.file.name} />
       </div>
 
       <div className="task__body">

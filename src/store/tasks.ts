@@ -7,6 +7,7 @@ export interface Task {
   file: File;
   status: TaskStatus;
   originalSize: number;
+  originalUrl: string; // object URL for the source file, shown before compression
   resultSize?: number;
   resultBlob?: Blob;
   resultUrl?: string; // object URL for preview/download
@@ -34,6 +35,7 @@ export const useTasks = create<State>((set) => ({
           file: f,
           status: "pending" as const,
           originalSize: f.size,
+          originalUrl: URL.createObjectURL(f),
         })),
       ],
     })),
@@ -44,12 +46,18 @@ export const useTasks = create<State>((set) => ({
   removeTask: (id) =>
     set((s) => {
       const target = s.tasks.find((t) => t.id === id);
-      if (target?.resultUrl) URL.revokeObjectURL(target.resultUrl);
+      if (target) {
+        URL.revokeObjectURL(target.originalUrl);
+        if (target.resultUrl) URL.revokeObjectURL(target.resultUrl);
+      }
       return { tasks: s.tasks.filter((t) => t.id !== id) };
     }),
   clear: () =>
     set((s) => {
-      for (const t of s.tasks) if (t.resultUrl) URL.revokeObjectURL(t.resultUrl);
+      for (const t of s.tasks) {
+        URL.revokeObjectURL(t.originalUrl);
+        if (t.resultUrl) URL.revokeObjectURL(t.resultUrl);
+      }
       return { tasks: [] };
     }),
 }));
